@@ -42,6 +42,7 @@ from argparse import ArgumentParser
 import trio
 from io import BytesIO
 import gc
+import atexit
 
 try:
     import faulthandler
@@ -566,33 +567,31 @@ def parse_args():
     return parser.parse_args()
 
 def runFs(client):
-    with Profile() as profile:
-        try:
-            options = parse_args()
-            init_logging(options.debug)
-            operations = Operations(client)
+    try:
+        options = parse_args()
+        init_logging(options.debug)
+        operations = Operations(client)
 
-            fuse_options = set(pyfuse3.default_options)
-            fuse_options.add('fsname=telegram_fuse')
-            fuse_options.add("allow_other")
-            fuse_options.discard('default_permissions')
-            if options.debug_fuse:
-                fuse_options.add('debug')
-            
-            pyfuse3.init(operations, options.mountpoint, fuse_options)
+        fuse_options = set(pyfuse3.default_options)
+        fuse_options.add('fsname=telegram_fuse')
+        fuse_options.add("allow_other")
+        fuse_options.discard('default_permissions')
+        if options.debug_fuse:
+            fuse_options.add('debug')
+        
+        pyfuse3.init(operations, options.mountpoint, fuse_options)
 
-            # close db and unmount fs when program is closed
-            def cleanup():
-                print("RUNNING CLEANUP")
-                Stats(profile).strip_dirs().sort_stats(SortKey.CALLS).dump_stats("STATS.txt")
-                operations.cursor.close()
-                operations.db.close()
-                pyfuse3.close(unmount=True)
+        # close db and unmount fs when program is closed
+        def cleanup():
+            print("RUNNING CLEANUP")
+            operations.cursor.close()
+            operations.db.close()
+            pyfuse3.close(unmount=True)
 
-            atexit.register(cleanup)
-            trio.run(pyfuse3.main)
+        atexit.register(cleanup)
+        trio.run(pyfuse3.main)
 
-        except:
-            raise
+    except:
+        raise
     
     

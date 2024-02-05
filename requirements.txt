@@ -2,3 +2,5 @@ telethon
 python-dotenv
 cryptography
 cryptg
+pyfuse3
+cachetools

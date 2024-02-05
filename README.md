@@ -18,7 +18,8 @@ Before running this, I recommend creating a virtual environment in Python.
 - (optional) Create a venv with `python -m venv <your-env-name`
 - Rename `.env.sample` to `.env` and fill in the variables with appropriate values. You can get the Telegram ones from  
 - Run `pip install -r requirements.txt`.
-    - This might fail to get pyfuse3. If it does, you may have to install manually. The directions here worked for me: http://www.rath.org/pyfuse3-docs/install.html
+    - This might fail to get pyfuse3. If it does, you may be missing some requirements. On my system (Ubuntu 20.04), running this command to install some exta packages worked for me:
+    `sudo apt install meson cmake fuse3 libfuse3-dev libglib2.0-dev pkg-config`. You can also install from these directions: http://www.rath.org/pyfuse3-docs/install.html
 - Run `python main.py <path/to/your/mount>` for instance, `python3 main.py ./telegramfs` will mount at the directory `telegramfs`` in the current working dir.
 
 ## Known Issues
