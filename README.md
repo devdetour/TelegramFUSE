@@ -1,3 +1,6 @@
+# Keep In Mind
+Though Telegram allows file uploads, it is not intended to be used as cloud storage. Your files could be lost at any time. Don't rely on this project (or any similar ones) for storing important files on Telegram.
+
 # TelegramFS
 A [FUSE](https://en.wikipedia.org/wiki/Filesystem_in_Userspace) program that stores files on Telegram.
 
