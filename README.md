@@ -36,3 +36,18 @@ Error handling is somewhat lacking. If Telegram uploads fail, you'll probably se
 
 # TO UNMOUNT, IF SOMETHING BREAKS
 `fusermount -u <path/of/your/mount>`
+
+## Got this Error
+Any idea how to fix it ?
+``` 
+Traceback (most recent call last):
+  File "/home/Telegram/main.py", line 18, in <module>
+    init()
+  File "/home/Telegram/main.py", line 15, in init
+    runFs(client)
+  File "/home/Telegram/fuse_impl.py", line 569, in runFs
+    with Profile() as profile:
+         ^^^^^^^
+NameError: name 'Profile' is not defined
+```
+
