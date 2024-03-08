@@ -260,6 +260,11 @@ class Operations(pyfuse3.Operations):
             # Delete from telegram_messages
             self.cursor.execute("DELETE FROM telegram_messages where inode=?", (entry.st_ino,))
 
+        if entry.st_nlink > 1 and entry.st_ino not in self.inode_open_count:
+            # delete from contents
+            self.cursor.execute("DELETE FROM contents WHERE name=? AND parent_inode=?",
+                            (name, inode_p))
+
         self.db.commit()
 
     async def symlink(self, inode_p, name, target, ctx):
