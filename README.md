@@ -26,6 +26,7 @@ Before running this, I recommend creating a virtual environment in Python.
 - Run `pip install -r requirements.txt`.
     - This might fail to get pyfuse3. If it does, you may be missing some requirements. On my system (Ubuntu 20.04), running this command to install some exta packages worked for me:
     `sudo apt install meson cmake fuse3 libfuse3-dev libglib2.0-dev pkg-config`. You can also install from these directions: http://www.rath.org/pyfuse3-docs/install.html
+- Enable the `user_allow_other` option in `/etc/fuse.conf`.
 - Run `python main.py <path/to/your/mount>` for instance, `python3 main.py ./telegramfs` will mount at the directory `telegramfs`` in the current working dir. The directory you are mounting must exist.
 
 ## Known Issues
